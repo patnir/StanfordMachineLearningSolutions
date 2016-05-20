@@ -27,10 +27,13 @@ B = -1* (1 - y)' * log(1 - sigmoid(X * theta));
 % Sum of the above two parts divided by number of training examples m
 J = (1 / m ) * sum(A + B);
 
-grad = (1 / m) .* [(sigmoid(X * theta) - y)' * X(:, 1); 
-    (sigmoid(X * theta) - y)' * X(:, 2); 
-    (sigmoid(X * theta) - y)' * X(:, 3)]
 
+% -- Expanded form
+% grad = (1 / m) .* [(sigmoid(X * theta) - y)' * X(:, 1); 
+%     (sigmoid(X * theta) - y)' * X(:, 2); 
+%     (sigmoid(X * theta) - y)' * X(:, 3)]
+
+grad = (1 / m) .* ((sigmoid(X * theta) - y)' * X)'
 
 
 % =============================================================

@@ -17,8 +17,26 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+% Similar to logistic regression
+A = -1* y' * log(sigmoid(X * theta));
+B = -1* (1 - y)' * log(1 - sigmoid(X * theta));
 
+%Only utilizing indeces 2 through 28 for theta
+C = (lambda / (2)) * sum(theta(2:size(theta, 1), 1).^2);
 
+J = (1 / m) * (A + B + C);
+
+grad = (1 / m) .* ((sigmoid(X * theta) - y)' * X)';
+
+% In order to not regularize theta(1), I decided to use a copy of theta and
+% assign its first index's value to 0 so that it did not intefere with the
+% calculations
+holder = theta;
+holder(1) = 0;
+
+gradC = (lambda / m) * holder;
+
+grad = grad + gradC;
 
 
 
