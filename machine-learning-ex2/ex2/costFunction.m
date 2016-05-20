@@ -18,12 +18,18 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 %
 % Note: grad should have the same dimensions as theta
-%
 
 
+% First part of the cost function:= -y (log(h(x))
+A = -1* y' * log(sigmoid(X * theta));
+% Second part of the cost funciton := -(1-y)log(1 - h(x))
+B = -1* (1 - y)' * log(1 - sigmoid(X * theta));
+% Sum of the above two parts divided by number of training examples m
+J = (1 / m ) * sum(A + B);
 
-
-
+grad = (1 / m) .* [(sigmoid(X * theta) - y)' * X(:, 1); 
+    (sigmoid(X * theta) - y)' * X(:, 2); 
+    (sigmoid(X * theta) - y)' * X(:, 3)]
 
 
 

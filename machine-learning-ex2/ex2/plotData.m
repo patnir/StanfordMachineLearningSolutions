@@ -12,8 +12,19 @@ figure; hold on;
 %               examples and 'ko' for the negative examples.
 %
 
+% finding all negative and positive values
+positive_values = find(y == 1);
+negative_values = find(y == 0);
 
+hold on
 
+% need to plot which value corresponds with which student passing or
+% failing
+
+plot(X(positive_values, 1), X(positive_values, 2), 'r+');
+plot(X(negative_values, 1), X(negative_values, 2), 'bo');
+
+hold off
 
 
 
