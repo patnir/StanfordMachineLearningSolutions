@@ -62,6 +62,8 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% Part 1:
+
 % Accounting for bias unit for X
 X_with_bias = [ones(size(X, 1), 1), X];
 
@@ -70,10 +72,8 @@ a2 = sigmoid(X_with_bias * Theta1');
 
 % Accounting for bias units
 a2_with_bias = [ones(size(a2, 1), 1), a2];
-
 % Activations for third layer
 a3 = sigmoid(a2_with_bias * Theta2');
-
 % We need to convert the 5000 x 1 y matrix into a 5000 x 10 matrix. This is
 % because, the a single output from the neural network has to be in the
 % form of a 1 x 10 matrix. For example the matrix for 1 as an output should
@@ -100,13 +100,34 @@ cTheta2(:, 1) = 0;
 
 C = (lambda / (2 * m)) * (sum((cTheta1(:) .^ 2)) + sum((cTheta2(:) .^ 2))) ;
 
+% Final cost function
 J = J + C;
 
+% Part 2
 
+D1 = zeros(size(Theta1));
+D2 = zeros(size(Theta2));
 
+for t = 1:m
+    a1_with_bias = X_with_bias(t, :);
+    z2 = a1_with_bias * Theta1';
+    a2 = sigmoid(z2);
+    a2_with_bias =  [1, a2];
+    z3 = a2_with_bias * Theta2';
+    a3 = sigmoid(z3);
+    
+    delta3 = a3 - y_expanded(t, :);
+    delta2 = (delta3 * Theta2) .* sigmoidGradient([1, z2]);
+    
+    D1 = D1 + delta2(2:end)' * a1_with_bias;
+    D2 = D2 + delta3' * a2_with_bias;
+end
 
+Theta1_grad = (1 / m) * D1;
+Theta2_grad = (1 / m) * D2;
 
-
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) + (lambda / m) * (Theta1(:, 2:end));
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) + (lambda / m) * (Theta2(:, 2:end));
 
 % -------------------------------------------------------------
 
@@ -117,3 +138,4 @@ grad = [Theta1_grad(:) ; Theta2_grad(:)];
 
 
 end
+    
