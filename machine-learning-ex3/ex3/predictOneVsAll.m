@@ -30,11 +30,14 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% X is a 5001x400 matrix
+% all_theta is a 10 x 401 dimension matrix
+% we are trying to find the locations where the max occus
 
+[values_max, p] = max(X * all_theta', [], 2);
 
-
-
-
+% the max values are stored in values_max and the locations of those
+% max_values are stored in p
 
 % =========================================================================
 

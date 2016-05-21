@@ -49,6 +49,19 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+for i = 1:num_labels
+    % setting the initial_theta prediction to be all zeros
+    
+    initial_theta = zeros(n + 1, 1);
+    % all output values that correspond to hits for the given label
+    
+    m_dimensional_y = (y == i);
+    % executing fmincg rather than fminunc because it "is more more ecient
+    % for dealing with a large number of parameters."
+    
+    options = optimset('GradObj', 'on', 'MaxIter', 50);
+    all_theta(i, :) = fmincg (@(t)(lrCostFunction(t, X, m_dimensional_y, lambda)), initial_theta, options);
+end
 
 
 

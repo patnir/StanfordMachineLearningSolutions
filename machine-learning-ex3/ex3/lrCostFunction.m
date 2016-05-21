@@ -36,7 +36,30 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+% The requirement for this was that no loops should be used to calculate
+% the cost function or the gradient. Rather, a vectorized approach would be
+% more appropriate. I have tried to break it down as much as possible.
 
+J_without_reg = (-1* y' * log(sigmoid(X * theta))) + (-1* (1 - y)' * log(1 - sigmoid(X * theta)));
+
+%Only utilizing indeces 2 through 28 for theta
+J_reg = (lambda / (2)) * sum(theta(2:size(theta, 1), 1).^2);
+
+J = (1 / m) * (J_without_reg + J_reg);
+
+% Calculating gradient
+
+grad_without_reg = (1 / m) .* ((sigmoid(X * theta) - y)' * X)';
+
+% In order to not regularize theta(1), I decided to use a copy of theta and
+% assign its first index's value to 0 so that it did not intefere with the
+% calculations
+holder = theta;
+holder(1) = 0;
+
+grad_reg = (lambda / m) * holder;
+
+grad = grad_without_reg + grad_reg;
 
 
 

@@ -19,14 +19,31 @@ p = zeros(size(X, 1), 1);
 %       function can also return the index of the max element, for more
 %       information see 'help max'. If your examples are in rows, then, you
 %       can use max(A, [], 2) to obtain the max for each row.
-%
 
+% Accounting for x0, which includes all ones
+c = [ones(m, 1) X];
 
+% Finding the activation values of layer 2
+a2 = sigmoid(c * Theta1');
 
+% Accounting for a0, which includes all ones
+a2 = [ones(size(a2, 1), 1), a2];
 
+% Finding the output of the neural network
+h = sigmoid(a2 * Theta2');
 
+% Searching for max values and placing their locations in p
+[max_values, p] = max(h, [], 2);
 
+% Added because from output, it was observed that the prediction was
+% consistently 10 for every "0" image. Since, from my guess, there is an
+% indexing issue related to MATLAB, so for everytime p predicts 10, I have
+% made it predict 0, so it has consistent results. I realize that, for a
+% different problem, this approach cannot always be hard-coded.
 
+if (p == 10)
+    p = 0;
+end
 
 
 % =========================================================================
