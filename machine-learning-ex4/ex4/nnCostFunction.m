@@ -63,19 +63,44 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 % Accounting for bias unit for X
+X_with_bias = [ones(size(X, 1), 1), X];
 
-X_with_bias = [ones(size(X, 1), 1), X]
-
+%Activations for second layer
 a2 = sigmoid(X_with_bias * Theta1');
 
+% Accounting for bias units
 a2_with_bias = [ones(size(a2, 1), 1), a2];
 
+% Activations for third layer
+a3 = sigmoid(a2_with_bias * Theta2');
 
+% We need to convert the 5000 x 1 y matrix into a 5000 x 10 matrix. This is
+% because, the a single output from the neural network has to be in the
+% form of a 1 x 10 matrix. For example the matrix for 1 as an output should
+% look like - [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+y_square = eye(num_labels);
+y_expanded = y_square(y,:);
 
+% Cost function is divided into 3 parts - A, B and C. A and B are the
+% components of the cost function without regularization, while C is the
+% component of the cost function with regularization
 
+A = y_expanded .* log(a3);
+B = (1 - y_expanded) .* log(1 - a3);
 
+% Cost function not including the regularized term
+J = (-1 / m) .* sum(sum(A + B));
 
+% Calculating the contribution from regularization
+cTheta1 = Theta1;
+cTheta1(:, 1) = 0;
+cTheta2 = Theta2;
+cTheta2(:, 1) = 0;
+
+C = (lambda / (2 * m)) * (sum((cTheta1(:) .^ 2)) + sum((cTheta2(:) .^ 2))) ;
+
+J = J + C;
 
 
 
