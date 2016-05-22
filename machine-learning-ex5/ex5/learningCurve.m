@@ -52,11 +52,10 @@ error_val   = zeros(m, 1);
 %
 
 % ---------------------- Sample Solution ----------------------
-
-
-
-
-
+for i = 1:m
+    error_train(i) = (1/(2 * i)) * sum(((X(1:i, :) * trainLinearReg(X(1:i, :), y(1:i), lambda)) - y(1:i)) .^ 2);
+    error_val(i) = (1/(2 * size(yval, 1))) * sum(((Xval * trainLinearReg(X(1:i, :), y(1:i), lambda)) - yval) .^2);
+end
 
 
 % -------------------------------------------------------------
