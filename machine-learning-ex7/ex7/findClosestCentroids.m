@@ -22,8 +22,21 @@ idx = zeros(size(X,1), 1);
 %
 
 
+for i = 1:size(X, 1)
+    minDistance = intmax;
+    for j = 1:size(centroids, 1)
+        distance = 0;
+        for k = 1:size(X, 2)
+            distance = distance + (abs(X(i, k) - centroids(j, k)))^2;
+        end
+        if (minDistance > distance)
+            minDistance = distance;
+            idx(i) = j;
+        end
+    end
+end
 
-
+idx
 
 
 
